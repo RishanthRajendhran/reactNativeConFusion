@@ -6,7 +6,7 @@ import {leaders} from "./leaders";
 import {comments} from "./comments";
 import {promotions} from "./promotions";
 
-export default configureStore = () => {
+export const configureStore = () => {
     const store = createStore(
         combineReducers({
             dishes,

@@ -7,9 +7,18 @@ import DishDetail from "./DishDetailComponent";
 import {View,Platform,Image,StyleSheet,ScrollView,Text} from "react-native";
 import { createStackNavigator, createDrawerNavigator,DrawerItems, SafeAreaView } from 'react-navigation';
 import {Icon} from "react-native-elements";
+import {connect} from "react-redux";
+import {fetchDishes, fetchComments, fetchPromos, fetchLeaders} from "../redux/ActionCreators";
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+})
 
 const MenuNavigator = createStackNavigator({
-        Menu: { screen: Menu, 
+        Menu: { screen: () => <Menu/>, 
             navigationOptions: ({navigation}) => ({
                 headerLeft: <Icon name="menu" 
                                 size={24}
@@ -18,7 +27,7 @@ const MenuNavigator = createStackNavigator({
                             />
             })
         },
-        Dishdetail: { screen: DishDetail }
+        Dishdetail: { screen: () => <DishDetail/> }
     },
     {
         initialRouteName: 'Menu',
@@ -35,7 +44,7 @@ const MenuNavigator = createStackNavigator({
 );
 
 const HomeNavigator = createStackNavigator({
-    Home: { screen: Home },
+    Home: { screen: () => <Home/> },
 },
 {
     navigationOptions: ({navigation}) => ({
@@ -56,7 +65,7 @@ const HomeNavigator = createStackNavigator({
 );
 
 const AboutNavigator = createStackNavigator({
-    About: {screen:About},
+    About: {screen:() => <About/>},
 },{
     navigationOptions:({navigation}) => ({
         headerStyle: {
@@ -76,7 +85,7 @@ const AboutNavigator = createStackNavigator({
 );
 
 const ContactNavigator = createStackNavigator({
-    Contact: {screen:Contact},
+    Contact: {screen:() => <Contact/>},
 },{
     navigationOptions:({navigation}) => ({
         headerStyle: {
@@ -180,6 +189,13 @@ const MainNavigator = createDrawerNavigator ({
 
 class Main extends Component {
 
+    componentDidMount() {
+        this.props.fetchDishes();
+        this.props.fetchComments();
+        this.props.fetchPromos();
+        this.props.fetchLeaders();
+    }
+
     render() {
         return(
             <View style={{flex:1, paddingTop: Platform.OS === 'ios' ? 0 : 10}}>
@@ -213,4 +229,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Main;
+export default connect(null,mapDispatchToProps)(Main);
