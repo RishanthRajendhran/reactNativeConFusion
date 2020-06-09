@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import {baseUrl} from "../shared/baseUrl";
 import {postFavourite} from "../redux/ActionCreators";
 import {postComment} from "../redux/ActionCreators";
+import * as Animatible from "react-native-animatable";
 
 const mapStateToProps = state => {
     return{
@@ -25,33 +26,35 @@ function RenderDish(props) {
     const dish = props.dish;
     if(dish!=null) {
         return(
-            <Card
-            featuredTitle={dish.name}
-            image={{uri: baseUrl + dish.image}}>
-                <Text style={{margin: 10}}>
-                    {dish.description}
-                </Text>
-                <View style={styles.flexBox}>
-                    <Icon
-                        style={styles.flexItem}
-                        raised={true}
-                        reverse={true}
-                        name={ props.favourite ? 'heart' : 'heart-o'}
-                        type='font-awesome'
-                        color='#f50'
-                        onPress={() => props.favourite ? console.log('Already favourite') : props.onPress()}
-                    />
-                    <Icon
-                        style={styles.flexItem}
-                        raised={true}
-                        reverse={true}
-                        name="pencil"
-                        type='font-awesome'
-                        color='#512DA8'
-                        onPress={() => props.addComm()}
-                    />
-                </View>
-            </Card>
+            <Animatible.View animation="fadeInDown" duration={2000} delay={1000}>            
+                <Card
+                featuredTitle={dish.name}
+                image={{uri: baseUrl + dish.image}}>
+                    <Text style={{margin: 10}}>
+                        {dish.description}
+                    </Text>
+                    <View style={styles.flexBox}>
+                        <Icon
+                            style={styles.flexItem}
+                            raised={true}
+                            reverse={true}
+                            name={ props.favourite ? 'heart' : 'heart-o'}
+                            type='font-awesome'
+                            color='#f50'
+                            onPress={() => props.favourite ? console.log('Already favourite') : props.onPress()}
+                        />
+                        <Icon
+                            style={styles.flexItem}
+                            raised={true}
+                            reverse={true}
+                            name="pencil"
+                            type='font-awesome'
+                            color='#512DA8'
+                            onPress={() => props.addComm()}
+                        />
+                    </View>
+                </Card>
+            </Animatible.View>
         );
     }
     else {
@@ -82,13 +85,15 @@ function RenderComments(props) {
     }
 
     return(
-        <Card title="Comments">
-            <FlatList 
-                data={comments}
-                renderItem={renderCommentItem}
-                keyExtractor={item => item.id.toString()}
-            />
-        </Card>
+        <Animatible.View animation="fadeInUp" duration={2000} delay={1000}>
+            <Card title="Comments">
+                <FlatList 
+                    data={comments}
+                    renderItem={renderCommentItem}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </Card>
+        </Animatible.View>
     );
 }
 
