@@ -1,4 +1,4 @@
-// import {Expo} from 'expo';
+import {Expo} from 'expo';
 import React, {Component} from "react";
 import Menu from "./MenuComponent";
 import Home from "./HomeComponent";
@@ -6,6 +6,7 @@ import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 import DishDetail from "./DishDetailComponent";
 import Reservation from "./ReservationComponent";
+import Favourites from "./FavouritesComponent";
 import {View,Platform,Image,StyleSheet,ScrollView,Text} from "react-native";
 import { createStackNavigator, createDrawerNavigator,DrawerItems, SafeAreaView } from 'react-navigation';
 import {Icon} from "react-native-elements";
@@ -126,6 +127,26 @@ const ReservationNavigator = createStackNavigator({
 } 
 );
 
+const FavouritesNavigator = createStackNavigator({
+    Contact: {screen:() => <Favourites/>},
+},{
+    navigationOptions:({navigation}) => ({
+        headerStyle: {
+            backgroundColor: "#512DA8"
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            color: "#fff"            
+        },
+        headerLeft: <Icon name="menu" 
+                        size={24}
+                        color="white"
+                        onPress={() => navigation.toggleDrawer()}
+                    />
+    })
+} 
+);
+
 const CustomDrawerComponent = (props) => (
     <ScrollView>
         <SafeAreaView style={styles.container}
@@ -199,6 +220,20 @@ const MainNavigator = createDrawerNavigator ({
                 <Icon name="address-card"
                     type="font-awesome"
                     size={22}
+                    color={tintColor}
+                />
+            )
+        }
+    },
+    Favourites: {
+        screen: FavouritesNavigator,
+        navigationOptions: {
+            title: "My Favourites",
+            drawerLabel: "My Favourites",
+            drawerIcon: ({tintColor}) => (
+                <Icon name="heart"
+                    type="font-awesome"
+                    size={24}
                     color={tintColor}
                 />
             )

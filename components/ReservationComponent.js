@@ -107,8 +107,8 @@ class Reservation extends Component {
                     animationType={"slide"}
                     transparent={false}
                     visible={this.state.showModal}
-                    onDismiss={() => {this.toggleModal();this.resetForm()}}
-                    onRequestClose={() => {this.toggleModal();this.resetForm()}}
+                    //onDismiss={() => {this.toggleModal();this.resetForm()}}
+                    //onRequestClose={() => {this.toggleModal();this.resetForm()}}
                 >
                     <View style={styles.modal}>
                         <Text style={styles.modalTitle}>
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
         color:"white",
         marginBottom:20
     },
-    modalTest: {
+    modalText: {
         fontSize: 18,
         margin:10
     }
