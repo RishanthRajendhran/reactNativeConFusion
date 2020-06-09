@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View, Text,Alert } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import {withNavigation} from "react-navigation";
@@ -35,7 +35,24 @@ class Favourites extends Component {
                 {
                     text: 'Delete', 
                     type: 'delete',
-                    onPress: () => this.props.deleteFavourite(item.id)
+                    onPress: () => {
+                        Alert.alert(
+                            "Delete Favourite",
+                            "Are you sure you wish to delete the dish "+item.name+" from your favourites?",
+                            [
+                                {
+                                    text: "Cancel",
+                                    style: "cancel",
+                                    onPress: () => console.log("The Dish "+item.name+" was not deleted from 'My Favourites'")
+                                },
+                                {
+                                    text: "OK",
+                                    onPress: () => this.props.deleteFavourite(item.id)
+                                }
+                            ],
+                            {cancelable:false}
+                        );
+                    }
                 }
             ];
 
