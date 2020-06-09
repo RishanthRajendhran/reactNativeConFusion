@@ -198,4 +198,9 @@ export const addFavourite = (dishId) => ({
     type: ActionTypes.ADD_FAVOURITE,
     payload: dishId
 });
+
+export const deleteFavourite = (dishId) => ({
+    type: ActionTypes.DELETE_FAVOURITE,
+    payload: dishId
+});
 // -----------------------------------------

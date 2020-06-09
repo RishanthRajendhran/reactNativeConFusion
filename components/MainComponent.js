@@ -23,6 +23,7 @@ const mapDispatchToProps = (dispatch) => ({
 const MenuNavigator = createStackNavigator({
         Menu: { screen: () => <Menu/>, 
             navigationOptions: ({navigation}) => ({
+                title: "Menu",
                 headerLeft: <Icon name="menu" 
                                 size={24}
                                 color="white"
@@ -51,6 +52,7 @@ const HomeNavigator = createStackNavigator({
 },
 {
     navigationOptions: ({navigation}) => ({
+        title: "Home",
         headerStyle: {
             backgroundColor: "#512DA8"
         },
@@ -71,6 +73,7 @@ const AboutNavigator = createStackNavigator({
     About: {screen:() => <About/>},
 },{
     navigationOptions:({navigation}) => ({
+        title: "About Us",
         headerStyle: {
             backgroundColor: "#512DA8"
         },
@@ -91,6 +94,7 @@ const ContactNavigator = createStackNavigator({
     Contact: {screen:() => <Contact/>},
 },{
     navigationOptions:({navigation}) => ({
+        title: "Contact Us",
         headerStyle: {
             backgroundColor: "#512DA8"
         },
@@ -111,6 +115,7 @@ const ReservationNavigator = createStackNavigator({
     Contact: {screen:() => <Reservation/>},
 },{
     navigationOptions:({navigation}) => ({
+        title: "Reserve A Table",
         headerStyle: {
             backgroundColor: "#512DA8"
         },
@@ -131,6 +136,7 @@ const FavouritesNavigator = createStackNavigator({
     Contact: {screen:() => <Favourites/>},
 },{
     navigationOptions:({navigation}) => ({
+        title:"My Favourites",
         headerStyle: {
             backgroundColor: "#512DA8"
         },
