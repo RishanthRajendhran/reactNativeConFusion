@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {View, Text,FlatList,ScrollView,StyleSheet,Modal} from "react-native";
+import { Text, View, ScrollView, FlatList, Modal, StyleSheet, Alert, PanResponder } from 'react-native';
 import {Button,Rating,Input} from "react-native-elements";
 import { Card,Icon } from "react-native-elements";
 import { withNavigation } from "react-navigation";
@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {baseUrl} from "../shared/baseUrl";
 import {postFavourite} from "../redux/ActionCreators";
 import {postComment} from "../redux/ActionCreators";
-import * as Animatible from "react-native-animatable";
+import * as Animatable from "react-native-animatable";
 
 const mapStateToProps = state => {
     return{
@@ -24,9 +24,40 @@ const mapDispatchtoProps = dispatch => ({
 
 function RenderDish(props) {
     const dish = props.dish;
+
+    const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+        if ( dx < -200 )
+            return true;
+        else
+            return false;
+    }
+
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: (e, gestureState) => {
+            return true;
+        },
+        onPanResponderEnd: (e, gestureState) => {
+            console.log("pan responder end", gestureState);
+            if (recognizeDrag(gestureState))
+                Alert.alert(
+                    'Add Favorite',
+                    'Are you sure you wish to add ' + dish.name + ' to favorite?',
+                    [
+                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                    {text: 'OK', onPress: () => {props.favorite ? console.log('Already favorite') : props.onPress()}},
+                    ],
+                    { cancelable: false }
+                );
+
+            return true;
+        }
+    })
+
     if(dish!=null) {
         return(
-            <Animatible.View animation="fadeInDown" duration={2000} delay={1000}>            
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+                {...panResponder.panHandlers}
+            >           
                 <Card
                 featuredTitle={dish.name}
                 image={{uri: baseUrl + dish.image}}>
@@ -54,7 +85,7 @@ function RenderDish(props) {
                         />
                     </View>
                 </Card>
-            </Animatible.View>
+            </Animatable.View>
         );
     }
     else {
@@ -85,7 +116,7 @@ function RenderComments(props) {
     }
 
     return(
-        <Animatible.View animation="fadeInUp" duration={2000} delay={1000}>
+        <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
             <Card title="Comments">
                 <FlatList 
                     data={comments}
@@ -93,7 +124,7 @@ function RenderComments(props) {
                     keyExtractor={item => item.id.toString()}
                 />
             </Card>
-        </Animatible.View>
+        </Animatable.View>
     );
 }
 
