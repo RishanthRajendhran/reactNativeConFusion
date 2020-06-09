@@ -34,10 +34,14 @@ function RenderDish(props) {
             return false;
     }
 
-    const panResponder = PanResponder.create({
-        onStartShouldSetPanResponder: (e, gestureState) => {
-            return true;
-        },
+    const panResponder = React.useRef(
+        PanResponder.create({
+        onStartShouldSetPanResponder: (evt, gestureState) => true,
+        onStartShouldSetPanResponderCapture: (evt, gestureState) =>
+        true,
+        onMoveShouldSetPanResponder: (evt, gestureState) => true,
+        onMoveShouldSetPanResponderCapture: (evt, gestureState) =>
+        true,
         onPanResponderGrant: () => {
             this.view.rubberBand(1000)
                 .then(endState => console.log(endState.finished?"finished":"cancelled"));
@@ -58,6 +62,7 @@ function RenderDish(props) {
             return true;
         }
     })
+    ).current;
 
     if(dish!=null) {
         return(
