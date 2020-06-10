@@ -4,6 +4,8 @@ import { Input, CheckBox, Button, Icon } from 'react-native-elements';
 import * as Permissions from "expo-permissions";
 import * as SecureStore from "expo-secure-store";
 import * as ImagePicker from "expo-image-picker";
+import * as Asset from "expo-asset";
+import * as ImageManipulator from "expo-image-manipulator";
 import { createBottomTabNavigator } from 'react-navigation';
 import { baseUrl } from '../shared/baseUrl';
 
@@ -146,28 +148,21 @@ class RegisterTab extends Component {
                 aspect: [4, 3],
             });
             if (!capturedImage.cancelled) {
-                console.log(capturedImage);
-                this.setState({imageUrl: capturedImage.uri });
+                this.processImage(capturedImage.uri);
             }
         }
 
     }
 
-    getImageFromCamera = async () => {
-        const cameraPermission = await Permissions.askAsync(Permissions.CAMERA);
-        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-        if(cameraPermission.status === "granted" && cameraRollPermission.status === "granted")
-        {
-            let capturedImage = await ImagePicker.launchCameraAsync({
-                allowsEditing: true,
-                aspect: [4,3]
-            });
-
-            if(!capturedImage.cancelled)
-            {
-                this.setState({ imageUrl: capturedImage.uri });
-            }
-        }
+    processImage = async (imageUri) => {
+        let processedImage = await ImageManipulator.manipulateAsync(
+            imageUri,
+            [
+                { resize: {width: 400} }
+            ],
+            { format: "png" }
+        );
+        this.setState({imageUrl: processedImage.uri})
     }
     
     static navigationOptions = {
@@ -187,6 +182,20 @@ class RegisterTab extends Component {
         if (this.state.remember)
             SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
                 .catch((error) => console.log('Could not save user info', error));
+    }
+
+    handleRegister() {
+        console.log(JSON.stringify(this.state));
+        if (this.state.remember)
+        {
+            SecureStore.setItemAsync('userinfo', JSON.stringify({username: this.state.username, password: this.state.password}))
+                .catch((error) => console.log('Could not save user info', error));
+        }
+        else
+        {
+            SecureStore.deleteItemAsync('userinfo')
+                .catch((error) => console.log('Could not delete user info', error));
+        }
     }
 
     render() {
