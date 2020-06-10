@@ -155,7 +155,8 @@ const FavouritesNavigator = createStackNavigator({
 );
 
 const LoginNavigator = createStackNavigator({
-    Login: {screen:() => <Login/>},
+    // Login: {screen:() => <Login/>},
+    Login: Login,
 },{
     navigationOptions:({navigation}) => ({
         title:"Login",

@@ -87,17 +87,19 @@ function RenderDish(props) {
     }
 
     if(dish!=null) {
-        return(
-            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
-                ref={this.handleViewRef}
-                {...panResponder.panHandlers}
-            >           
+        return(         
                 <Card
                 featuredTitle={dish.name}
-                image={{uri: baseUrl + dish.image}}>
-                    <Text style={{margin: 10}}>
-                        {dish.description}
-                    </Text>
+                image={{uri: baseUrl + dish.image}}
+                >
+                    <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+                        ref={this.handleViewRef}
+                        {...panResponder.panHandlers}
+                    >  
+                        <Text style={{margin: 10}}>
+                            {dish.description}
+                        </Text>
+                    </Animatable.View>                    
                     <View style={styles.flexBox}>
                         <Icon
                             style={styles.flexItem}
@@ -128,7 +130,6 @@ function RenderDish(props) {
                             />
                     </View>
                 </Card>
-            </Animatable.View>
         );
     }
     else {
