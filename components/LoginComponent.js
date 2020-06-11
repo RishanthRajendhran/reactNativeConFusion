@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Image} from 'react-native';
 import { Input, CheckBox, Button, Icon } from 'react-native-elements';
 import * as Permissions from "expo-permissions";
 import * as SecureStore from "expo-secure-store";
@@ -145,13 +145,27 @@ class RegisterTab extends Component {
         if (cameraPermission.status === 'granted' && cameraRollPermission.status === 'granted') {
             let capturedImage = await ImagePicker.launchCameraAsync({
                 allowsEditing: true,
-                aspect: [4, 3],
+                aspect: [4, 3]
             });
             if (!capturedImage.cancelled) {
                 this.processImage(capturedImage.uri);
             }
         }
 
+    }
+
+    getImageFromGallery = async () => {
+        const cameraRollPermission = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+        if(cameraRollPermission.status === "granted") {
+            let chosenImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [4,3]
+            });
+            if(!chosenImage.cancelled) {
+                this.processImage(chosenImage.uri);
+            }
+        }
     }
 
     processImage = async (imageUri) => {
@@ -212,6 +226,10 @@ class RegisterTab extends Component {
                         title="Camera"
                         onPress={this.getImageFromCamera}
                         />
+                    <Button
+                        title="Gallery"
+                        onPress={this.getImageFromGallery}
+                    />
                 </View>
                 <Input
                     placeholder="Username"
@@ -285,7 +303,8 @@ const styles = StyleSheet.create({
     imageContainer: {
         flex: 1,
         flexDirection: 'row',
-        margin: 20
+        margin: 20,
+        justifyContent:"space-around"
     },
     image: {
       margin: 10,

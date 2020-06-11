@@ -3,15 +3,14 @@
   "displayName": "confusion",
   "expo": {
     "name": "confusion",
-    "slug": "expo-template-bare",
+    "icon": "./icon.png",
+    "slug": "confusion",
     "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "ios": {
+        "bundleIdentifier": "net.food.confusion.confusion"
+    },
+    "android": {
+        "package": "net.food.confusion.confusion"
+    }
   }
 }
